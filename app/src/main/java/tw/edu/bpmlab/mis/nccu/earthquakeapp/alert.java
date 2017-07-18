@@ -1,21 +1,16 @@
 package tw.edu.bpmlab.mis.nccu.earthquakeapp;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
-import android.os.AsyncTask;
 import android.os.BatteryManager;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -28,18 +23,7 @@ import android.view.View;
 import android.widget.ImageButton;
 
 //db
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.lang.reflect.Array;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Connection;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -48,8 +32,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
 //countDown
 import android.os.CountDownTimer;
@@ -63,10 +45,7 @@ import android.hardware.SensorManager;
 //gps
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
-import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.location.LocationServices;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -75,13 +54,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 //address
-import java.net.HttpURLConnection;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-
-import android.widget.AdapterView.OnItemSelectedListener;
-
-import net.sourceforge.jtds.jdbc.DateTime;
 
 
 public class alert extends AppCompatActivity implements
@@ -109,7 +81,7 @@ public class alert extends AppCompatActivity implements
     public ArrayList<Double> eqGalDataChn = new ArrayList<Double>();
 
     private double eqGal;
-    private Integer magnitude;
+    public Integer magnitude;
 
     public TextView localLevel;
     public TextView epicCenterLevel;
@@ -238,6 +210,10 @@ public class alert extends AppCompatActivity implements
 //            Toast.makeText(alert.this,""+token,Toast.LENGTH_SHORT).show();
         mFcmTokenReference.child(token).setValue(token);
         }
+
+
+        Intent intentMagnitudeService = new Intent(alert.this,magnitudeService.class);
+        startService(intentMagnitudeService);
 
     }
 
@@ -398,10 +374,10 @@ public class alert extends AppCompatActivity implements
                         eqGalDataChn.add((eqGalData.get(1) / eqGalData.get(0)));
                         if (eqGalDataChn.get(0) > Math.pow(Math.sqrt(10), 2)) {
 
-                            eqDataID = mEqDataReference.push().getKey();
+//                            eqDataID = mEqDataReference.push().getKey();
                             EqData eqData = new EqData(magnitude, x, y, eqGal, time, eqDataID);
 
-                            mEqDataReference.push().setValue(eqData);
+//                            mEqDataReference.push().setValue(eqData);
 
 
                         }

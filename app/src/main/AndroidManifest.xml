@@ -89,10 +89,17 @@
             </intent-filter>
 
             </activity>
+        <activity android:name=".gSensorMonitor">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".Startup_2"
             android:screenOrientation="portrait"/>
 
+        <service android:name=".magnitudeService"></service>
 
     <service
         android:name=".MyFirebaseMessagingService">
